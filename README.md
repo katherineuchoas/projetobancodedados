@@ -3,8 +3,8 @@ Database Project: Academic Management System
 
 Overview
 🔍 The database schema consists of several interconnected tables to store information about students, professors, courses, and administrative staff. It includes tables for managing units within the academic institution, such as departments and faculties.
-![Diagrama]([https://github.com/username/repository/blob/branch/path/to/image.png](https://github.com/katherineuchoas/projetobancodedados/blob/d4c906cea512f602ba217ed64c48ab32af23cd42/behavior.PNG))
 
+![Diagrama](https://github.com/katherineuchoas/projetobancodedados/blob/d4c906cea512f602ba217ed64c48ab32af23cd42/behavior.PNG)
 
 
 Project Structure
