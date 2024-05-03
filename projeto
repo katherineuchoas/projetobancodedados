@@ -1,0 +1,311 @@
+--PROJETO FINAL - MÓDULO BANCO DE DADOS
+
+-- Tabela de Unidades Acadêmicas
+CREATE TABLE UnidadesAcademicas (
+    Codigo INT PRIMARY KEY,
+    Nome VARCHAR(100),
+    DataInicio DATE
+);
+
+CREATE TABLE Pessoas (
+    ID SERIAL PRIMARY KEY,
+    Nome VARCHAR(100),
+    Email VARCHAR(100),
+    Tipo VARCHAR(20) CHECK (Tipo IN ('Aluno', 'Funcionario', 'Professor'))
+);
+
+-- Tabela de Alunos
+CREATE TABLE Alunos (
+    Matricula VARCHAR(10) PRIMARY KEY,
+    PessoaID INT UNIQUE,
+    Mensalidade DECIMAL(10, 2),
+    Curso VARCHAR(100),
+    DataMatricula DATE,
+    PrevisaoConclusao DATE,
+    Turma INT,
+    FOREIGN KEY (PessoaID) REFERENCES Pessoas(ID)
+);
+
+-- Tabela de Funcionários
+CREATE TABLE Funcionarios (
+    Matricula VARCHAR(10) PRIMARY KEY,
+    PessoaID INT UNIQUE,
+    Salario DECIMAL(10, 2),
+    Funcao VARCHAR(100),
+    UnidadeAcademicaID INT,
+    FOREIGN KEY (PessoaID) REFERENCES Pessoas(ID),
+    FOREIGN KEY (UnidadeAcademicaID) REFERENCES UnidadesAcademicas(Codigo)
+);
+
+-- Tabela de Professores
+CREATE TABLE Professores (
+    Matricula VARCHAR(10) PRIMARY KEY,
+    PessoaID INT UNIQUE,
+    Formacao VARCHAR(100),
+    FOREIGN KEY (PessoaID) REFERENCES Pessoas(ID)
+);
+
+-- Tabela de Dependentes
+CREATE TABLE Dependentes (
+    ID SERIAL PRIMARY KEY,
+    Nome VARCHAR(100),
+    Relacao VARCHAR(100), -- Relação com o contratado (pai, mãe, etc.)
+    ContratadoID INT, -- Referência para Alunos, Funcionarios ou Professores
+    FOREIGN KEY (ContratadoID) REFERENCES Pessoas(ID)
+);
+
+-- Tabela de Turmas
+CREATE TABLE Turmas (
+    Numero INT,
+    CodCred INT,
+    NomeDisciplina VARCHAR(100),
+    Horario VARCHAR(100),
+    ProfessorMatricula VARCHAR(10), -- Referência para Professores
+    PRIMARY KEY (Numero, CodCred),
+    FOREIGN KEY (ProfessorMatricula) REFERENCES Professores(Matricula)
+);
+
+INSERT INTO Pessoas (Nome, Email, Tipo) VALUES
+('João Silva', 'joao@example.com', 'Aluno'),
+('Maria Santos', 'maria@example.com', 'Aluno'),
+('Pedro Oliveira', 'pedro@example.com', 'Aluno'),
+('Ana Lima', 'ana@example.com', 'Aluno'),
+('Lucas Costa', 'lucas@example.com', 'Aluno'),
+('Carla Rodrigues', 'carla@example.com', 'Aluno'),
+('André Almeida', 'andre@example.com', 'Aluno'),
+('Juliana Ferreira', 'juliana@example.com', 'Aluno'),
+('Rafaela Souza', 'rafaela@example.com', 'Aluno'),
+('Bruno Martins', 'bruno@example.com', 'Aluno'),
+('Fernanda Oliveira', 'fernanda@example.com', 'Aluno'),
+('Carlos Silva', 'carlos@example.com', 'Aluno'),
+('Aline Santos', 'aline@example.com', 'Aluno'),
+('Gabriel Costa', 'gabriel@example.com', 'Aluno'),
+('Paula Almeida', 'paula@example.com', 'Aluno'),
+('Mateus Lima', 'mateus@example.com', 'Aluno'),
+('Larissa Rodrigues', 'larissa@example.com', 'Aluno'),
+('Vinícius Oliveira', 'vinicius@example.com', 'Aluno'),
+('Marina Silva', 'marina@example.com', 'Aluno'),
+('Thiago Santos', 'thiago@example.com', 'Aluno'),
+('Amanda Costa', 'amanda@example.com', 'Aluno'),
+('Rodrigo Almeida', 'rodrigo@example.com', 'Aluno'),
+('Isabela Ferreira', 'isabela@example.com', 'Aluno'),
+('Luciana Lima', 'luciana@example.com', 'Aluno'),
+('Lucas Oliveira', 'lucas.o@example.com', 'Aluno'),
+('Carolina Almeida', 'carolina@example.com', 'Aluno'),
+('Andréia Souza', 'andreia@example.com', 'Aluno'),
+('Guilherme Martins', 'guilherme@example.com', 'Aluno'),
+('Fernanda Rodrigues', 'fernanda.r@example.com', 'Aluno'),
+('Ricardo Silva', 'ricardo@example.com', 'Aluno'),
+('Mariana Santos', 'mariana@example.com', 'Aluno'),
+('Felipe Costa', 'felipe@example.com', 'Aluno'),
+('Camila Almeida', 'camila@example.com', 'Aluno'),
+('Daniel Lima', 'daniel@example.com', 'Aluno'),
+('Vitória Oliveira', 'vitoria@example.com', 'Aluno'),
+('Lucas Almeida', 'lucas.a@example.com', 'Aluno'),
+('Natália Ferreira', 'natalia@example.com', 'Aluno'),
+('Gabriela Martins', 'gabriela@example.com', 'Aluno'),
+('Luiz Oliveira', 'luiz@example.com', 'Professor'),
+('Carolina Santos', 'carolina@example.com', 'Professor'),
+('Ricardo Lima', 'ricardo@example.com', 'Professor'),
+('Fernanda Costa', 'fernanda@example.com', 'Professor'),
+('Gustavo Almeida', 'gustavo@example.com', 'Professor'),
+('Amanda Ferreira', 'amanda@example.com', 'Professor'),
+('Marcelo Silva', 'marcelo@example.com', 'Professor'),
+('Patrícia Souza', 'patricia@example.com', 'Professor'),
+('Rodrigo Costa', 'rodrigo@example.com', 'Professor'),
+('Natália Almeida', 'natalia@example.com', 'Professor'),
+('Márcio Oliveira', 'marcio@example.com', 'Professor'),
+('Camila Ferreira', 'camila@example.com', 'Professor'),
+('Bruno Santos', 'bruno@example.com', 'Professor'),
+('Tatiane Lima', 'tatiane@example.com', 'Professor'),
+('Leandro Costa', 'leandro@example.com', 'Professor'),
+('Aline Almeida', 'aline@example.com', 'Professor'),
+('Paulo Silva', 'paulo@example.com', 'Professor'),
+('Juliana Santos', 'juliana@example.com', 'Professor'),
+('Henrique Oliveira', 'henrique@example.com', 'Professor'),
+('Mariana Almeida', 'mariana@example.com', 'Professor'),
+('Lucas Oliveira', 'lucas.o@example.com', 'Funcionario'),
+('Andréia Souza', 'andreia@example.com', 'Funcionario'),
+('Guilherme Martins', 'guilherme@example.com', 'Funcionario'),
+('Fernanda Rodrigues', 'fernanda.r@example.com', 'Funcionario'),
+('Ricardo Silva', 'ricardo@example.com', 'Funcionario'),
+('Mariana Santos', 'mariana@example.com', 'Funcionario'),
+('Felipe Costa', 'felipe@example.com', 'Funcionario'),
+('Camila Almeida', 'camila@example.com', 'Funcionario'),
+('Daniel Lima', 'daniel@example.com', 'Funcionario'),
+('Vitória Oliveira', 'vitoria@example.com', 'Funcionario');
+
+-- Inserir dados das turmas com Matricula dos professores
+INSERT INTO Turmas (Numero, CodCred, NomeDisciplina, Horario, ProfessorMatricula)
+VALUES
+(1, 100, 'Introdução à Ciência da Computação', 'Segunda-feira, 8:00-10:00', 'P202300039'),
+(2, 101, 'Programação Orientada a Objetos', 'Segunda-feira, 10:00-12:00', 'P202300040'),
+(3, 102, 'Estrutura de Dados', 'Terça-feira, 8:00-10:00', 'P202300041'),
+(4, 103, 'Redes de Computadores', 'Terça-feira, 10:00-12:00', 'P202300042'),
+(5, 104, 'Banco de Dados', 'Quarta-feira, 8:00-10:00', 'P202300043'),
+(6, 105, 'Engenharia de Software', 'Quarta-feira, 10:00-12:00', 'P202300044'),
+(7, 106, 'Inteligência Artificial', 'Quinta-feira, 8:00-10:00', 'P202300045'),
+(8, 107, 'Segurança da Informação', 'Quinta-feira, 10:00-12:00', 'P202300046'),
+(9, 108, 'Sistemas Operacionais', 'Sexta-feira, 8:00-10:00', 'P202300047'),
+(10, 109, 'Computação Gráfica', 'Sexta-feira, 10:00-12:00', 'P202300048'),
+(11, 110, 'Algoritmos', 'Segunda-feira, 8:00-10:00', 'P202300049'),
+(12, 111, 'Linguagens de Programação', 'Segunda-feira, 10:00-12:00', 'P202300050'),
+(13, 112, 'Sistemas Embarcados', 'Terça-feira, 8:00-10:00', 'P202300051'),
+(14, 113, 'Teoria da Computação', 'Terça-feira, 10:00-12:00', 'P202300052'),
+(15, 114, 'Computação Quântica', 'Quarta-feira, 8:00-10:00', 'P202300053'),
+(16, 115, 'Bioinformática', 'Quarta-feira, 10:00-12:00', 'P202300054'),
+(17, 116, 'Computação Cognitiva', 'Quinta-feira, 8:00-10:00', 'P202300055'),
+(18, 117, 'Computação Forense', 'Quinta-feira, 10:00-12:00', 'P202300056'),
+(19, 118, 'Programação em Python', 'Sexta-feira, 8:00-10:00', 'P202300057'),
+(20, 119, 'Desenvolvimento Web', 'Sexta-feira, 10:00-12:00', 'P202300058');
+
+
+-- Relacionar os alunos já inseridos
+INSERT INTO Alunos (Matricula, PessoaID, Mensalidade, Curso, DataMatricula, PrevisaoConclusao, Turma)
+VALUES
+('202300001', 1, 1000.00, 'Ciência da Computação', '2024-01-15', '2028-07-01', 1),
+('202300002', 2, 1000.00, 'Análise e Desenvolvimento de Sistemas', '2024-01-15', '2027-07-01', 1),
+('202300003', 3, 1000.00, 'Ciência de Dados', '2024-01-15', '2027-07-01', 2),
+('202300004', 4, 1000.00, 'Redes', '2024-01-15', '2027-07-01', 2),
+('202300005', 5, 1000.00, 'Ciência da Computação', '2024-01-15', '2028-07-01', 3),
+('202300006', 6, 1000.00, 'Análise e Desenvolvimento de Sistemas', '2024-01-15', '2027-07-01', 3),
+('202300007', 7, 1000.00, 'Ciência de Dados', '2024-01-15', '2027-07-01', 4),
+('202300008', 8, 1000.00, 'Redes', '2024-01-15', '2027-07-01', 4),
+('202300009', 9, 1000.00, 'Ciência da Computação', '2024-01-15', '2028-07-01', 5),
+('202300010', 10, 1000.00, 'Análise e Desenvolvimento de Sistemas', '2024-01-15', '2027-07-01', 5),
+('202300011', 11, 1000.00, 'Ciência de Dados', '2024-01-15', '2027-07-01', 6),
+('202300012', 12, 1000.00, 'Redes', '2024-01-15', '2027-07-01', 6),
+('202300013', 13, 1000.00, 'Ciência da Computação', '2024-01-15', '2028-07-01', 1),
+('202300014', 14, 1000.00, 'Análise e Desenvolvimento de Sistemas', '2024-01-15', '2027-07-01', 1),
+('202300015', 15, 1000.00, 'Ciência de Dados', '2024-01-15', '2027-07-01', 2),
+('202300016', 16, 1000.00, 'Redes', '2024-01-15', '2027-07-01', 2),
+('202300017', 17, 1000.00, 'Ciência da Computação', '2024-01-15', '2028-07-01', 3),
+('202300018', 18, 1000.00, 'Análise e Desenvolvimento de Sistemas', '2024-01-15', '2027-07-01', 3),
+('202300019', 19, 1000.00, 'Ciência de Dados', '2024-01-15', '2027-07-01', 4),
+('202300020', 20, 1000.00, 'Redes', '2024-01-15', '2027-07-01', 4),
+('202300021', 21, 1000.00, 'Ciência da Computação', '2024-01-15', '2028-07-01', 5),
+('202300022', 22, 1000.00, 'Análise e Desenvolvimento de Sistemas', '2024-01-15', '2027-07-01', 5),
+('202300023', 23, 1000.00, 'Ciência de Dados', '2024-01-15', '2027-07-01', 6),
+('202300024', 24, 1000.00, 'Redes', '2024-01-15', '2027-07-01', 6),
+('202300025', 25, 1000.00, 'Ciência da Computação', '2024-01-15', '2028-07-01', 1),
+('202300026', 26, 1000.00, 'Análise e Desenvolvimento de Sistemas', '2024-01-15', '2027-07-01', 1),
+('202300027', 27, 1000.00, 'Ciência de Dados', '2024-01-15', '2027-07-01', 2),
+('202300028', 28, 1000.00, 'Redes', '2024-01-15', '2027-07-01', 2),
+('202300029', 29, 1000.00, 'Ciência da Computação', '2024-01-15', '2028-07-01', 3),
+('202300030', 30, 1000.00, 'Análise e Desenvolvimento de Sistemas', '2024-01-15', '2027-07-01', 3),
+('202300031', 31, 1000.00, 'Ciência de Dados', '2024-01-15', '2027-07-01', 4),
+('202300032', 32, 1000.00, 'Redes', '2024-01-15', '2027-07-01', 4),
+('202300033', 33, 1000.00, 'Ciência da Computação', '2024-01-15', '2028-07-01', 5),
+('202300034', 34, 1000.00, 'Análise e Desenvolvimento de Sistemas', '2024-01-15', '2027-07-01', 5),
+('202300035', 35, 1000.00, 'Ciência de Dados', '2024-01-15', '2027-07-01', 6),
+('202300036', 36, 1000.00, 'Redes', '2024-01-15', '2027-07-01', 6),
+('202300037', 37, 1000.00, 'Ciência da Computação', '2024-01-15', '2028-07-01', 1),
+('202300038', 38, 1000.00, 'Análise e Desenvolvimento de Sistemas', '2024-01-15', '2027-07-01', 1);
+
+-- Relacionar os professores já inseridos
+INSERT INTO Professores (Matricula, PessoaID, Formacao)
+VALUES
+('P202300039', 39, 'Doutorado em Ciência da Computação'),
+('P202300040', 40, 'Mestrado em Análise de Sistemas'),
+('P202300041', 41, 'Doutorado em Ciência de Dados'),
+('P202300042', 42, 'Mestrado em Redes de Computadores'),
+('P202300043', 43, 'Doutorado em Engenharia de Software'),
+('P202300044', 44, 'Mestrado em Inteligência Artificial'),
+('P202300045', 45, 'Doutorado em Segurança da Informação'),
+('P202300046', 46, 'Mestrado em Sistemas Distribuídos'),
+('P202300047', 47, 'Doutorado em Arquitetura de Computadores'),
+('P202300048', 48, 'Mestrado em Banco de Dados'),
+('P202300049', 49, 'Doutorado em Computação Gráfica'),
+('P202300050', 50, 'Mestrado em Algoritmos'),
+('P202300051', 51, 'Doutorado em Linguagens de Programação'),
+('P202300052', 52, 'Mestrado em Lógica Computacional'),
+('P202300053', 53, 'Doutorado em Sistemas Embarcados'),
+('P202300054', 54, 'Mestrado em Teoria da Computação'),
+('P202300055', 55, 'Doutorado em Computação Quântica'),
+('P202300056', 56, 'Mestrado em Bioinformática'),
+('P202300057', 57, 'Doutorado em Computação Cognitiva'),
+('P202300058', 58, 'Mestrado em Computação Forense');
+
+INSERT INTO UnidadesAcademicas (Codigo, Nome, DataInicio)
+VALUES
+(1, 'Departamento de Ciência da Computação', '2022-01-01'),
+(2, 'Departamento de Administração', '2022-01-01');
+
+-- Relacionar os funcionários já inseridos
+INSERT INTO Funcionarios (Matricula, PessoaID, Salario, Funcao, UnidadeAcademicaID)
+VALUES
+('F202300059', 59, 5000.00, 'Coordenador', 1),
+('F202300060', 60, 3000.00, 'Secretário', 2),
+('F202300061', 61, 5000.00, 'Coordenador', 1),
+('F202300062', 62, 3000.00, 'Secretário', 2),
+('F202300063', 63, 5000.00, 'Coordenador', 1),
+('F202300064', 64, 3000.00, 'Secretário', 2),
+('F202300065', 65, 5000.00, 'Coordenador', 1),
+('F202300066', 66, 3000.00, 'Secretário', 2),
+('F202300067', 67, 5000.00, 'Coordenador', 1),
+('F202300068', 68, 3000.00, 'Secretário', 2);
+
+--Receita Mensal de Cada Curso
+SELECT Curso, SUM(Mensalidade) AS ReceitaMensal
+FROM Alunos
+GROUP BY Curso;
+
+--Receita Mensal de Cada Turma
+SELECT Curso, Turma, SUM(Mensalidade) AS ReceitaMensal
+FROM Alunos
+GROUP BY Curso, Turma;
+
+
+--Nome do Professor e o Número da Turma
+SELECT 
+    p.Nome AS Nome_Professor,
+    t.Numero AS Numero_Turma
+FROM 
+    Turmas t
+INNER JOIN 
+    Professores pr ON t.ProfessorMatricula = pr.Matricula
+INNER JOIN 
+    Pessoas p ON pr.PessoaID = p.ID;
+   
+   select * from turmas
+
+-- Selecionar o calendário de cada turma com o nome do professor usando uma subconsulta
+SELECT t.Numero AS Numero_Turma, 
+       t.NomeDisciplina AS Disciplina, 
+       t.Horario AS Horario_Turma, 
+       (
+           SELECT CONCAT(p.Nome, ' ', p.Sobrenome) 
+           FROM Professores pr 
+           INNER JOIN Pessoas p ON pr.Matricula = p.Matricula 
+           WHERE pr.Matricula = t.ProfessorMatricula
+       ) AS Nome_Professor
+FROM Turmas t;
+
+-- Criar a view para o calendário de cada turma com o nome do professor
+CREATE VIEW CalendarioTurmas AS
+SELECT 
+    t.Numero AS Numero_Turma,
+    t.NomeDisciplina AS Disciplina,
+    t.Horario AS Horario_Turma,
+    p.Nome AS Nome_Professor
+FROM 
+    Turmas t
+INNER JOIN 
+    Professores pr ON t.ProfessorMatricula = pr.Matricula
+INNER JOIN 
+    Pessoas p ON pr.PessoaID = p.ID;
+   
+SELECT * FROM CalendarioTurmas;
+
+
+
+
+
+
+
+
+
+
+
+
+
